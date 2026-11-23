@@ -144,6 +144,7 @@ var settingFields = map[string]settingField{
 	"equalizing_charge_enable": {Addr: register.AddrEqualizingChargeEn, EncodeFunc: func(v string, _ float64) (uint16, error) { return encodeBool(v) }},
 	"record_fault_enable":      {Addr: register.AddrRecordFaultEnable, EncodeFunc: func(v string, _ float64) (uint16, error) { return encodeBool(v) }},
 	"timed_charge_enable":      {Addr: register.AddrTimedChargeEnable, EncodeFunc: func(v string, _ float64) (uint16, error) { return encodeBool(v) }},
+	"battery_to_ups_load":      {Addr: register.AddrBatteryToUPSLoad, EncodeFunc: func(v string, _ float64) (uint16, error) { return encodeBool(v) }, MasterOnly: true},
 	"timed_discharge_enable":   {Addr: register.AddrTimedDischargeEnable, EncodeFunc: func(v string, _ float64) (uint16, error) { return encodeBool(v) }},
 
 	// Battery system

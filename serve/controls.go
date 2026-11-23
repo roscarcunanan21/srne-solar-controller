@@ -118,6 +118,31 @@ var controlSwitches = []controlSwitch{
 			}
 		},
 	},
+	{
+		Key:  "battery_to_ups_load",
+		Name: "Battery to UPS Load",
+		Icon: "mdi:battery-arrow-down",
+		// Backed by the undocumented Battery energy manage register (0xE42A):
+		// 1 = the battery feeds the UPS (backup) load, 0 = Standby, where the battery
+		// is left alone to conserve charge. Written to the master only and verified by
+		// reading the register back.
+		StateFunc: func(s *inverter.Settings) string {
+			if s.Inverter.BatteryToUPSLoad == 1 {
+				return "ON"
+			}
+			return "OFF"
+		},
+		CommandFunc: func(ctx context.Context, hub *Hub, payload string) error {
+			switch payload {
+			case "ON":
+				return hub.WriteSetting(ctx, "battery_to_ups_load", "1")
+			case "OFF":
+				return hub.WriteSetting(ctx, "battery_to_ups_load", "0")
+			default:
+				return fmt.Errorf("invalid switch payload: %q", payload)
+			}
+		},
+	},
 }
 
 var controlNumbers = []controlNumber{

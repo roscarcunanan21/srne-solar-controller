@@ -45,6 +45,7 @@ Start the add-on. Sensor and control entities appear automatically under the MQT
 
 | Entity | Type | Description |
 |---|---|---|
+| Battery to UPS Load | Switch | ON = battery feeds the UPS load, OFF = Standby (battery conserved). Writes register 0xE42A, the inverter screen's Work mode > Battery energy manage option. |
 | Charge from Mains | Switch | Toggle grid charging. Remembers previous charger priority and restores it on OFF. |
 | Charger Priority | Select | CSO (PV Preferred) / CUB (Mains Preferred) / SNU (Hybrid) / OSO (PV Only) |
 | Output Priority | Select | SOL (Solar First) / UTI (Utility First) / SBU (Solar, Battery, Utility) |

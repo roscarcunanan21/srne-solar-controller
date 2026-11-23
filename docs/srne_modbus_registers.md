@@ -401,6 +401,7 @@ Partially populated. Most registers are zero, consistent with the device operati
 | 0xE401 | 100 | V2.08 docs: grid-connected power percentage |
 | 0xE425 | 1 | Unknown config |
 | 0xE426 | 15 | Unknown config |
+| 0xE42A | 0/1 | **Battery energy manage: 1 = Battery to UPS load, 0 = Standby.** Found by diffing snapshots while changing the setting on the inverter screen; only this register changed. |
 | 0xE42B | 1000 | V2.08 docs: possibly CT ratio (1000:1) or smart meter address |
 | 0xE42C | 100 | Percentage? |
 | 0xE42D | 60 | Seconds? |

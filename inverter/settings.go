@@ -132,6 +132,9 @@ type InverterSettings struct {
 	GeneratorWorkMode   uint16  `json:"generator_work_mode"`
 	GenChargeMaxCurrent float64 `json:"gen_charge_max_current"` // A
 	GeneratorRatedPower float64 `json:"generator_rated_power"`  // W
+
+	// Battery energy manage (0xE42A): 1 = Battery to UPS load, 0 = Standby.
+	BatteryToUPSLoad uint16 `json:"battery_to_ups_load"`
 }
 
 // ReadSettings reads all settings from the first unit (master).
@@ -297,6 +300,7 @@ func readInverterSettings(s *modbus.Session, inv *InverterSettings) {
 	inv.BMSErrorStopEnable, _ = s.Lookup(register.AddrBMSErrorStopEnable)
 
 	inv.GeneratorWorkMode, _ = s.Lookup(register.AddrGeneratorWorkMode)
+	inv.BatteryToUPSLoad, _ = s.Lookup(register.AddrBatteryToUPSLoad)
 	inv.GenChargeMaxCurrent = readScaled(s, register.AddrGenChargeMaxCurrent, register.Mul01)
 	inv.GeneratorRatedPower = readScaled(s, register.AddrGeneratorRatedPower, nil)
 }

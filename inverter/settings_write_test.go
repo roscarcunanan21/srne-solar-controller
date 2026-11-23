@@ -85,3 +85,29 @@ func TestWriteChargerPriorityMasterRejectionReturnsError(t *testing.T) {
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "0xE20F")
 }
+
+func TestWriteBatteryToUPSLoadWritesMasterOnly(t *testing.T) {
+	master := mock.NewInverter(map[uint16]uint16{
+		register.AddrSystemVoltage:    48,
+		register.AddrBatteryToUPSLoad: 1, // Battery to UPS load
+	})
+	require.NoError(t, master.Connect())
+
+	sys := NewSystem([]modbus.Client{master}, nil)
+
+	// Standby, then back to Battery to UPS load.
+	require.NoError(t, sys.WriteSetting(context.Background(), "battery_to_ups_load", "0"))
+	got, ok := master.GetRegister(register.AddrBatteryToUPSLoad)
+	require.True(t, ok)
+	assert.Equal(t, uint16(0), got)
+
+	require.NoError(t, sys.WriteSetting(context.Background(), "battery_to_ups_load", "1"))
+	got, ok = master.GetRegister(register.AddrBatteryToUPSLoad)
+	require.True(t, ok)
+	assert.Equal(t, uint16(1), got)
+
+	// Anything other than a boolean must be refused before any write happens.
+	writes := master.WriteCount
+	require.Error(t, sys.WriteSetting(context.Background(), "battery_to_ups_load", "2"))
+	assert.Equal(t, writes, master.WriteCount, "invalid value must not reach the inverter")
+}

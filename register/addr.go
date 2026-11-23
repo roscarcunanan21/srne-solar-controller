@@ -199,8 +199,13 @@ const (
 	AddrMaxLinePower          = 0xE21D
 	AddrOutputPhase           = 0xE21E
 	AddrGeneratorWorkMode     = 0xE21F
-	AddrGenChargeMaxCurrent   = 0xE220
-	AddrGeneratorRatedPower   = 0xE221
+
+	// P10: Grid-connection / hybrid-mode block (undocumented; found by diffing register
+	// snapshots while changing the setting on the inverter screen).
+	// Work mode setup > Battery energy manage: 1 = "Battery to UPS load", 0 = "Standby".
+	AddrBatteryToUPSLoad    = 0xE42A
+	AddrGenChargeMaxCurrent = 0xE220
+	AddrGeneratorRatedPower = 0xE221
 
 	// P08: Statistics (read-only)
 	AddrPVGenDay7               = 0xF000
